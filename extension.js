@@ -26,6 +26,15 @@ export default class NoAnnoyance extends Extension {
       this._onWindowDemandsAttention.bind(this)
     );
 
+    this._windowCreatedId = global.display.connect(
+      "window-created",
+      (_display, window) => {
+        if (this._settings.get_boolean("focus-on-creation") && window.can_close()) {
+          this._onWindowDemandsAttention(_display, window);
+        }
+      }
+    );
+
     this._settingsChangedId = this._settings.connect(
       "changed::blocklist",
       this._onSettingsChanged.bind(this)
@@ -37,6 +46,7 @@ export default class NoAnnoyance extends Extension {
 
     global.display.disconnect(this._windowDemandsAttentionId);
     global.display.disconnect(this._windowMarkedUrgentId);
+    global.display.disconnect(this._windowCreatedId);
 
     if (this._settingsChangedId) {
       this._settings.disconnect(this._settingsChangedId);

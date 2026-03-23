@@ -2,6 +2,11 @@
 <schemalist>
 
   <schema id="org.gnome.shell.extensions.noannoyance-fork" path="/org/gnome/shell/extensions/noannoyance-fork/">
+    <key type="b" name="focus-on-creation">
+      <default>false</default>
+      <summary>Focus windows on creation.</summary>
+      <description>If set, newly created windows will be focused immediately. This is useful when the default 'window-demands-attention' signal does not fire, such as when opening a terminal via a keyboard shortcut while a different application is focused.</description>
+    </key>
     <key name="blocklist" type="as">
       <default>['Microsoft Teams - Preview']</default>
       <summary>By 'WM_CLASS.'</summary>

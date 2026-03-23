@@ -6,6 +6,7 @@ import Adw from "gi://Adw";
 import { ExtensionPreferences } from "resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js";
 
 const BLOCKLIST_KEY = "blocklist";
+const FOCUS_ON_CREATION_KEY = "focus-on-creation";
 
 export default class Preferences extends ExtensionPreferences {
   fillPreferencesWindow(window) {
@@ -15,6 +16,25 @@ export default class Preferences extends ExtensionPreferences {
       title: "General",
       icon_name: "dialog-information-symbolic",
     });
+
+    const focusGroup = new Adw.PreferencesGroup({
+      title: "Focus",
+    });
+    page.add(focusGroup);
+
+    const focusOnCreationToggle = new Adw.SwitchRow({
+      title: "Focus Windows on Creation",
+      subtitle:
+        "Focus newly created windows immediately, even when a different application is focused.",
+    });
+    focusGroup.add(focusOnCreationToggle);
+
+    settings.bind(
+      FOCUS_ON_CREATION_KEY,
+      focusOnCreationToggle,
+      "active",
+      Gio.SettingsBindFlags.DEFAULT
+    );
 
     const group = new Adw.PreferencesGroup({
       title: "Ignored Apps",
